@@ -1,0 +1,2 @@
+# stopper
+Stopper óra
