@@ -1,8 +1,10 @@
 # Stopper óra
 Stopper óra feladat a Mindtech Apps részére
+
 Készítette Gulyás János Adrián
 
 Kapott feladatleírás:
+
 "Készíts egy stopper órát! 
 
 A feladat lényege hogy html css és js felhasználásával készíts egy stopperórát. 
