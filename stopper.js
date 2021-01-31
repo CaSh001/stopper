@@ -1,53 +1,70 @@
-const PI = 3.141593
-PI > 3.0
-console.log(PI)
-
-
 class Stopper {
 
     constructor() {
-        //this.eltelt = 0;
+        this.paused = false;
+        this.ido = 0;
+        this.timer = null;
+        this.start();
     }
-
-
-    start() {
-        var ido = 0; 
-        var timer = setInterval((function() { ido++; 
-            //console.log(ido)
-            let perc = Math.floor(ido/100/60).toLocaleString('en-US', { //ezzel elérem hogy szép 00 alakú legyen
-                minimumIntegerDigits: 2,
-                useGrouping: false
-              });
-            let mp = Math.floor(ido/100%60).toLocaleString('en-US', {
-                minimumIntegerDigits: 2,
-                useGrouping: false
-              });
-            let szmp = (ido % 100).toLocaleString('en-US', {
-                minimumIntegerDigits: 2,
-                useGrouping: false
-              });
-
-            var textido = perc + ":" + mp + ":" + szmp
-            document.getElementById("ido").innerHTML = textido;
-        }), 1); //10 legyen
-    }
-
     /*
+    set paused  (paused)  { this._paused = paused               }
+    get paused  ()       { return this._paused                }
+    set ido  (ido)  { this._ido = ido               }
+    get ido  ()       { return this._ido                }*/
+
     start() {
-        var ido = 0; 
-        var timer = setInterval((function(scope) {return function() {scope.update(scope);};})(this), 10); //itt az updatet akarom meghívni, de mivel a setInterval-ban a 'this' az a 'window', így trükközök
+    var self = this;
+    document.getElementById("controls").innerHTML= `
+    <button id="pause">Pause</button>
+    <button id="stop">Stop</button>
+    `;
+    document.getElementById("pause").onclick = function() { self.pause(); };
+    document.getElementById("stop").onclick = function() { self.stop(); };
+
+    this.timer = setInterval((function(scope) {return function() {
+        scope.update(scope);};})(this), 10); //10 az egy századmásodperc
 
     }
-    update(scope){
-        ido++ 
-        //scope.eltelt+=1;
-        console.log(ido);
-        document.getElementById("ido").innerHTML = ido;
-    }*/
 
+    pause(){
+        if(this.paused){
+            this.paused = false;
+        }else{
+            this.paused = true;
+        }
+        
+    }
+    
+    stop(){
+        clearInterval(this.timer); 
+        console.log(this.timer);
+        document.getElementById("ido").innerHTML = "00:00:00";
+        //vissza kéne állítani a controlst
+    }
+
+    update(scope){
+        if(!scope.paused){
+            scope.ido++; //talán pontosabb lenne ha csak lekérem az időt
+            let perc = Math.floor(scope.ido/100/60).toLocaleString('en-US', { //ezzel elérem hogy szép 00 alakú legyen
+                minimumIntegerDigits: 2,
+                useGrouping: false
+            });
+            let mp = Math.floor(scope.ido/100%60).toLocaleString('en-US', {
+                minimumIntegerDigits: 2,
+                useGrouping: false
+            });
+            let szmp = (scope.ido % 100).toLocaleString('en-US', {
+                minimumIntegerDigits: 2,
+                useGrouping: false
+            });
+
+            let textido = perc + ":" + mp + ":" + szmp;
+            document.getElementById("ido").innerHTML = textido;
+            }
+    }
 }
 
 function create(){
-    let mainStopper = new Stopper(0);
-    mainStopper.start();
+    var mainStopper = new Stopper();
+    
 }
