@@ -9,7 +9,7 @@ var Stopper = function(){
         this.start();
     };
 
-    Stopper.prototype.start = function (){
+    Stopper.prototype.start = function() {
         this.blank = document.getElementById("controls").innerHTML;
         var self = this;
         document.getElementById("controls").innerHTML= `

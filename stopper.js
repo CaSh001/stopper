@@ -12,20 +12,19 @@ class Stopper {
 
     start() {
         this.blank = document.getElementById("controls").innerHTML;
-        var self = this;
+        //var self = this;
         document.getElementById("controls").innerHTML= `
         <button id="flag">Flag</button>
         <button id="pause">Pause</button>
         <button id="stop">Stop</button>
         `;
-        document.getElementById("flag").onclick = function() { self.flag(); };
-        document.getElementById("pause").onclick = function() { self.pause(); };
-        document.getElementById("stop").onclick = function() { self.stop(); };
+        document.getElementById("flag").onclick = () =>  this.flag() ;
+        document.getElementById("pause").onclick = () =>  this.pause() ;
+        document.getElementById("stop").onclick = () => this.stop();
 
-        this.timer = setInterval((function(scope) {return function() {
-            scope.update(scope);};})(this), 10); //10 az egy századmásodperc
+        this.timer = setInterval(() =>  this.update(this) , 10); //10 az egy századmásodperc
+    }   
 
-    }
 
     flag(){
         let eddigi = document.getElementById("saves").innerHTML;
@@ -80,3 +79,17 @@ class Stopper {
 function create(){
     var mainStopper = new Stopper();
 }
+
+    /* BONUSZ MEGOLDÁS SEGÍTSÉG:
+    function FakeClass(){
+    var myContext = 5;
+    return function getAndUpdate(val) {
+    var ret = myContext;
+    return myContext = val;
+    }
+    }
+
+    var getAndUpdate = FakeClass();
+
+    getAndUpdate(8) //return: 5
+    */
